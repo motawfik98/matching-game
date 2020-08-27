@@ -17,21 +17,23 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/one"
+                android:id="@+id/imgBtn0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:tag="0"
                 app:srcCompat="@drawable/card" />
 
             <ImageButton
-                android:id="@+id/two"
+                android:id="@+id/imgBtn1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:tag="1"
                 app:srcCompat="@drawable/card" />
 
         </TableRow>
@@ -42,45 +44,23 @@
             android:layout_weight="1" >
 
             <ImageButton
-                android:id="@+id/three"
+                android:id="@+id/imgBtn2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:tag="2"
                 app:srcCompat="@drawable/card" />
 
             <ImageButton
-                android:id="@+id/four"
+                android:id="@+id/imgBtn3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/card" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
-
-            <ImageButton
-                android:id="@+id/five"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/card" />
-
-            <ImageButton
-                android:id="@+id/six"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
+                android:tag="3"
                 app:srcCompat="@drawable/card" />
         </TableRow>
 
@@ -90,16 +70,43 @@
             android:layout_weight="1" >
 
             <ImageButton
-                android:id="@+id/seven"
+                android:id="@+id/imgBtn4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:tag="4"
                 app:srcCompat="@drawable/card" />
 
             <ImageButton
-                android:id="@+id/eight"
+                android:id="@+id/imgBtn5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="5"
+                app:srcCompat="@drawable/card" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/imgBtn6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="6"
+                app:srcCompat="@drawable/card" />
+
+            <ImageButton
+                android:id="@+id/imgBtn7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
