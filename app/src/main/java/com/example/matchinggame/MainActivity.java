@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void handleClick(View view) {
+        final int value = Integer.parseInt(view.getTag().toString()); // get the tag (index) of the clicked button
+        if (previousAnimalIndex == value) // if the clicked animal is the same as the last animal
+            return; // do nothing and return
         if (player != null) // if there's a player object, stop the sound to avoid conflicts
             player.stop();
         if (handlerRunning) { // if there's a handler (delay) function running
@@ -70,9 +73,6 @@ public class MainActivity extends AppCompatActivity {
             handlerCode(); // perform the code that should've been performed at the end of the delay
             handlerRunning = false;
         }
-        final int value = Integer.parseInt(view.getTag().toString()); // get the tag (index) of the clicked button
-        if (previousAnimalIndex == value) // if the clicked animal is the same as the last animal
-            return; // do nothing and return
         previousAnimalIndex = value; // update the last pressed animal
         if (firstAnimalIndex == -1) { // if there's no first animal
             firstAnimalIndex = value; // set the value of the first animal to the clicked animal
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             match = animals.get(firstAnimalIndex).equals(animals.get(secondAnimalIndex)); // boolean to hold if the two animals are equal or not
             if (match && endGame(false))
                 calculateTime();
-            delay(3000); // add handler (delay) with 3000 ms (3 seconds)
+            delay(2000); // add handler (delay) with 2000 ms (2 seconds)
         }
     }
 
