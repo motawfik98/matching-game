@@ -112,6 +112,7 @@
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:tag="7"
                 app:srcCompat="@drawable/card" />
         </TableRow>
     </TableLayout>
