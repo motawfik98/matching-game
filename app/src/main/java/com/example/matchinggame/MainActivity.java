@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -14,15 +13,13 @@ import com.example.matchinggame.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     ArrayList<Animal> animals;
     ImageButton[] buttons = new ImageButton[8];
     int[] displayImages = new int[8];
-    int firstAnimalIndex = -1, secondAnimalIndex = -1;
+    int firstAnimalIndex = -1, secondAnimalIndex = -1, previousAnimalIndex = -1;
     MediaPlayer player;
     boolean handlerRunning = false, match = false, shuffled = false;
     Handler handler = new Handler();
@@ -60,10 +57,14 @@ public class MainActivity extends AppCompatActivity {
             handlerRunning = false;
         }
         final int value = Integer.parseInt(view.getTag().toString());
+        if (previousAnimalIndex == value)
+            return;
+        previousAnimalIndex = value;
         if (firstAnimalIndex == -1) {
             firstAnimalIndex = value;
         } else if (secondAnimalIndex == -1) {
-            secondAnimalIndex = value;
+            if (firstAnimalIndex != value)
+                secondAnimalIndex = value;
         }
 
         changeImageButton(value, animals.get(value).getImage());
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         }
         firstAnimalIndex = -1;
         secondAnimalIndex = -1;
+        previousAnimalIndex = -1;
         handlerRunning = false;
     }
 
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         outState.putInt("firstAnimalIndex", firstAnimalIndex);
         outState.putInt("secondAnimalIndex", secondAnimalIndex);
+        outState.putInt("previousAnimalIndex", previousAnimalIndex);
         outState.putBoolean("handlerRunning", handlerRunning);
         outState.putBoolean("match", match);
         outState.putBoolean("shuffled", shuffled);
@@ -134,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         displayImages = savedInstanceState.getIntArray("displayImages");
         firstAnimalIndex = savedInstanceState.getInt("firstAnimalIndex");
         secondAnimalIndex = savedInstanceState.getInt("secondAnimalIndex");
+        previousAnimalIndex = savedInstanceState.getInt("previousAnimalIndex");
         handlerRunning = savedInstanceState.getBoolean("handlerRunning");
         match = savedInstanceState.getBoolean("match");
         animals = savedInstanceState.getParcelableArrayList("animals");
