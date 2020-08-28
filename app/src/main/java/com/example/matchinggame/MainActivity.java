@@ -6,13 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.matchinggame.databinding.ActivityMainBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -23,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer player;
     boolean handlerRunning = false, match = false, shuffled = false;
     Handler handler = new Handler();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss", Locale.ENGLISH);
+    String startTime, endTime;
+    long timeTaken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
             buttons[i].setOnClickListener(new View.OnClickListener() { // add click listener to handle the click
                 @Override
                 public void onClick(View view) {
+                    if (startTime == null)
+                        startTime = dateFormat.format(new Date());
                     handleClick(view);
                 }
             });
@@ -73,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         if (secondAnimalIndex != -1) { // if there are two animals displayed (clicked)
             handlerRunning = true; // indicate that there's a handler running
             match = animals.get(firstAnimalIndex).equals(animals.get(secondAnimalIndex)); // boolean to hold if the two animals are equal or not
+            if (match && endGame())
+                calculateTime();
             delay(3000); // add handler (delay) with 3000 ms (3 seconds)
         }
     }
@@ -91,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
             // change the visibility of both of them to INVISIBLE
             changeImageButton(firstAnimalIndex, 0);
             changeImageButton(secondAnimalIndex, 0);
+            if (endGame()) {
+
+            }
         } else { // the two animals are different
             // change the image of both of them to cards (flip them over)
             changeImageButton(firstAnimalIndex, R.drawable.card);
@@ -109,6 +127,31 @@ public class MainActivity extends AppCompatActivity {
             buttons[index].setVisibility(View.INVISIBLE);
         else // set the button's image to the given image
             buttons[index].setImageResource(image);
+    }
+
+    boolean endGame() {
+        int remaining = 0;
+        for (int displayImage : displayImages)
+            if (displayImage != 0) {
+                remaining++;
+            }
+        return remaining == 0 || remaining == 2;
+    }
+
+    void calculateTime() {
+        Date difference = null;
+        try {
+            Date startsTime = dateFormat.parse(this.startTime);
+            Date currentTime = new Date();
+            endTime = dateFormat.format(currentTime);
+            difference = new Date(currentTime.getTime() - startsTime.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (difference == null)
+            timeTaken = 0L;
+        else
+            timeTaken = difference.getTime() / 1000;
     }
 
 
@@ -132,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
         outState.putBoolean("match", match);
         outState.putBoolean("shuffled", shuffled);
         outState.putParcelableArrayList("animals", animals);
+
+        outState.putString("startTime", startTime);
+        outState.putString("endTime", endTime);
     }
 
     // get the state of the preserved variables
@@ -145,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
         handlerRunning = savedInstanceState.getBoolean("handlerRunning");
         match = savedInstanceState.getBoolean("match");
         animals = savedInstanceState.getParcelableArrayList("animals");
+
+        startTime = savedInstanceState.getString("startTime");
+        endTime = savedInstanceState.getString("endTime");
 
         if (displayImages != null)
             for (int i = 0; i < displayImages.length; i++) {
