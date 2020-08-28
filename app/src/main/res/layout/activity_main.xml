@@ -6,13 +6,114 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imgBtn0"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="0"
+                app:srcCompat="@drawable/card" />
+
+            <ImageButton
+                android:id="@+id/imgBtn1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="1"
+                app:srcCompat="@drawable/card" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/imgBtn2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="2"
+                app:srcCompat="@drawable/card" />
+
+            <ImageButton
+                android:id="@+id/imgBtn3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="3"
+                app:srcCompat="@drawable/card" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/imgBtn4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="4"
+                app:srcCompat="@drawable/card" />
+
+            <ImageButton
+                android:id="@+id/imgBtn5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="5"
+                app:srcCompat="@drawable/card" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/imgBtn6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="6"
+                app:srcCompat="@drawable/card" />
+
+            <ImageButton
+                android:id="@+id/imgBtn7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:tag="7"
+                app:srcCompat="@drawable/card" />
+        </TableRow>
+    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
