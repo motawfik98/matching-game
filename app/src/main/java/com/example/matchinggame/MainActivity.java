@@ -3,6 +3,7 @@ package com.example.matchinggame;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         if (secondAnimalIndex != -1) { // if there are two animals displayed (clicked)
             handlerRunning = true; // indicate that there's a handler running
             match = animals.get(firstAnimalIndex).equals(animals.get(secondAnimalIndex)); // boolean to hold if the two animals are equal or not
-            if (match && endGame())
+            if (match && endGame(false))
                 calculateTime();
             delay(3000); // add handler (delay) with 3000 ms (3 seconds)
         }
@@ -106,8 +107,11 @@ public class MainActivity extends AppCompatActivity {
             // change the visibility of both of them to INVISIBLE
             changeImageButton(firstAnimalIndex, 0);
             changeImageButton(secondAnimalIndex, 0);
-            if (endGame()) {
-
+            if (endGame(true)) {
+                Intent intent = new Intent(this, Score.class);
+                intent.putExtra("currentScore", timeTaken);
+                startActivity(intent);
+                this.finish();
             }
         } else { // the two animals are different
             // change the image of both of them to cards (flip them over)
@@ -129,13 +133,15 @@ public class MainActivity extends AppCompatActivity {
             buttons[index].setImageResource(image);
     }
 
-    boolean endGame() {
+    boolean endGame(boolean fromHandler) {
         int remaining = 0;
         for (int displayImage : displayImages)
             if (displayImage != 0) {
                 remaining++;
             }
-        return remaining == 0 || remaining == 2;
+        if (fromHandler && remaining == 0) return true;
+        if (!fromHandler && remaining == 2) return true;
+        return false;
     }
 
     void calculateTime() {
@@ -160,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         if (player != null) // stop the player on destroying the activity
             player.stop();
         super.onDestroy();
+        handler.removeCallbacksAndMessages(null); // remove the handler from the system
     }
 
     // override to preserve the state of the important variables
@@ -178,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
         outState.putString("startTime", startTime);
         outState.putString("endTime", endTime);
+        outState.putLong("timeTaken", timeTaken);
     }
 
     // get the state of the preserved variables
@@ -194,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
         startTime = savedInstanceState.getString("startTime");
         endTime = savedInstanceState.getString("endTime");
+        timeTaken = savedInstanceState.getLong("timeTaken");
 
         if (displayImages != null)
             for (int i = 0; i < displayImages.length; i++) {

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Matching Game</string>
+    <string name="high_scores">High Scores</string>
+    <string name="score">Current Score</string>
+    <string name="your_score">Your Score</string>
+    <string name="number_og_seconds">You Completed the Game in (sec):</string>
 </resources>
