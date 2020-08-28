@@ -8,16 +8,17 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+// Animal class to hold the image and sound for the animal
 public class Animal implements Parcelable {
     private int image;
     private int sound;
-    private static ArrayList<Animal> animals;
+    private static ArrayList<Animal> animals; // initialize the animals array without the user interaction
 
-    public Animal(int image, int sound) {
+    private Animal(int image, int sound) {
         this.image = image;
         this.sound = sound;
     }
-
+    // implementing Parcelable to be able tp preserve the state of the shuffled animals list
     public static final Creator<Animal> CREATOR = new Creator<Animal>() {
         @Override
         public Animal createFromParcel(Parcel in) {
@@ -63,7 +64,7 @@ public class Animal implements Parcelable {
         image = in.readInt();
         sound = in.readInt();
     }
-
+    // add 2 instances of each animal in the list then shuffle it
     public static ArrayList<Animal> getAnimals() {
         if (animals == null) {
             animals = new ArrayList<>();

@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        Arrays.fill(displayImages, R.drawable.card);
-        animals = Animal.getAnimals();
+        Arrays.fill(displayImages, R.drawable.card); // make the displayImages array full of cards
+        animals = Animal.getAnimals(); // gets the animals list
 
         for (int i = 0; i < 8; i++) {
-            buttons[i] = view.findViewWithTag(String.valueOf(i));
-            buttons[i].setMaxWidth(buttons[i].getWidth());
+            buttons[i] = view.findViewWithTag(String.valueOf(i)); // get the button by its tag
+            buttons[i].setMaxWidth(buttons[i].getWidth()); // restrict the button's dimensions
             buttons[i].setMaxHeight(buttons[i].getHeight());
-            buttons[i].setOnClickListener(new View.OnClickListener() {
+            buttons[i].setOnClickListener(new View.OnClickListener() { // add click listener to handle the click
                 @Override
                 public void onClick(View view) {
                     handleClick(view);
@@ -49,32 +49,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void handleClick(View view) {
-        if (player != null)
+        if (player != null) // if there's a player object, stop the sound to avoid conflicts
             player.stop();
-        if (handlerRunning) {
-            handler.removeCallbacksAndMessages(null);
-            handlerCode();
+        if (handlerRunning) { // if there's a handler (delay) function running
+            handler.removeCallbacksAndMessages(null); // remove the handler from the system
+            handlerCode(); // perform the code that should've been performed at the end of the delay
             handlerRunning = false;
         }
-        final int value = Integer.parseInt(view.getTag().toString());
-        if (previousAnimalIndex == value)
-            return;
-        previousAnimalIndex = value;
-        if (firstAnimalIndex == -1) {
-            firstAnimalIndex = value;
-        } else if (secondAnimalIndex == -1) {
-            if (firstAnimalIndex != value)
-                secondAnimalIndex = value;
+        final int value = Integer.parseInt(view.getTag().toString()); // get the tag (index) of the clicked button
+        if (previousAnimalIndex == value) // if the clicked animal is the same as the last animal
+            return; // do nothing and return
+        previousAnimalIndex = value; // update the last pressed animal
+        if (firstAnimalIndex == -1) { // if there's no first animal
+            firstAnimalIndex = value; // set the value of the first animal to the clicked animal
+        } else if (secondAnimalIndex == -1) { // if there's no second animal
+            secondAnimalIndex = value; //set the value of the second animal to the clicked animal
         }
 
-        changeImageButton(value, animals.get(value).getImage());
+        changeImageButton(value, animals.get(value).getImage()); // change the image of the clicked button
         player = MediaPlayer.create(MainActivity.this, animals.get(value).getSound());
-        player.start();
+        player.start(); // create and start the sound of the selected animal
 
-        if (secondAnimalIndex != -1) {
-            handlerRunning = true;
-            match = animals.get(firstAnimalIndex).equals(animals.get(secondAnimalIndex));
-            delay(3000);
+        if (secondAnimalIndex != -1) { // if there are two animals displayed (clicked)
+            handlerRunning = true; // indicate that there's a handler running
+            match = animals.get(firstAnimalIndex).equals(animals.get(secondAnimalIndex)); // boolean to hold if the two animals are equal or not
+            delay(3000); // add handler (delay) with 3000 ms (3 seconds)
         }
     }
 
@@ -88,13 +87,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void handlerCode() {
-        if (match) {
+        if (match) { // if the two animals are the same
+            // change the visibility of both of them to INVISIBLE
             changeImageButton(firstAnimalIndex, 0);
             changeImageButton(secondAnimalIndex, 0);
-        } else {
+        } else { // the two animals are different
+            // change the image of both of them to cards (flip them over)
             changeImageButton(firstAnimalIndex, R.drawable.card);
             changeImageButton(secondAnimalIndex, R.drawable.card);
         }
+        // reset the used variables at the end
         firstAnimalIndex = -1;
         secondAnimalIndex = -1;
         previousAnimalIndex = -1;
@@ -102,21 +104,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void changeImageButton(int index, int image) {
-        displayImages[index] = image;
-        if (image == 0)
+        displayImages[index] = image; // update displayImages to be able to preserve their state
+        if (image == 0) // if the image is equal to zero, remove its visibility
             buttons[index].setVisibility(View.INVISIBLE);
-        else
+        else // set the button's image to the given image
             buttons[index].setImageResource(image);
     }
 
 
     @Override
     protected void onDestroy() {
-        if (player != null)
+        if (player != null) // stop the player on destroying the activity
             player.stop();
         super.onDestroy();
     }
 
+    // override to preserve the state of the important variables
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -131,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putParcelableArrayList("animals", animals);
     }
 
+    // get the state of the preserved variables
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -144,12 +148,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (displayImages != null)
             for (int i = 0; i < displayImages.length; i++) {
+                // update buttons to display the displayed images before rotation
                 if (displayImages[i] == 0)
                     buttons[i].setVisibility(View.INVISIBLE);
                 else
                     buttons[i].setImageResource(displayImages[i]);
             }
+        // if the user switched the orientation and a handler was running
         if (handlerRunning)
-            delay(1000);
+            delay(1000); // perform the delay function but with smaller delay (1000 ms -> 1 sec)
     }
 }
