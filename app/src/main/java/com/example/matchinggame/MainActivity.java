@@ -1,23 +1,19 @@
 package com.example.matchinggame;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.matchinggame.databinding.ActivityMainBinding;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -89,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             match = animals.get(firstAnimalIndex).equals(animals.get(secondAnimalIndex)); // boolean to hold if the two animals are equal or not
             if (match && endGame(false))
                 calculateTime();
-            delay(2000); // add handler (delay) with 2000 ms (2 seconds)
+            delay(1500); // add handler (delay) with 2000 ms (2 seconds)
         }
     }
 
@@ -108,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
             changeImageButton(firstAnimalIndex, 0);
             changeImageButton(secondAnimalIndex, 0);
             if (endGame(true)) {
+                if (timeTaken == 0)
+                    calculateTime();
                 Intent intent = new Intent(this, Score.class);
                 intent.putExtra("currentScore", timeTaken);
                 startActivity(intent);
@@ -134,11 +132,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     boolean endGame(boolean fromHandler) {
-        int remaining = 0;
-        for (int displayImage : displayImages)
+        int remaining = 0, inVisible = 0;
+        for (int i = 0; i < displayImages.length; i++) {
+            int displayImage = displayImages[i];
             if (displayImage != 0) {
                 remaining++;
             }
+            if (buttons[i].getVisibility() == View.INVISIBLE)
+                inVisible++;
+        }
+        if (inVisible == 8) return true;
         if (fromHandler && remaining == 0) return true;
         if (!fromHandler && remaining == 2) return true;
         return false;
